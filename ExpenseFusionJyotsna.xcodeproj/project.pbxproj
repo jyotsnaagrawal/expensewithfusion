@@ -153,12 +153,12 @@
 				3FD555F32BE6AF0700B37D48 /* SplitBillsView.swift */,
 				3FD555F12BE6AECB00B37D48 /* ExpenseTrackerView.swift */,
 				3F13FB582BEB096D0034CF32 /* Expense.swift */,
+				3F13FB5E2BEB254B0034CF32 /* AddExpenseView.swift */,
+				3F13FB602BEB25710034CF32 /* ExpenseItemView.swift */,
 				3FD555F72BE6BA7100B37D48 /* ExpenseTrackerViewModel.swift */,
 				3F13FB5C2BEB252C0034CF32 /* FilteredExpensesView.swift */,
 				3F435C632BD1784B00B2E926 /* Assets.xcassets */,
 				3F435C652BD1784B00B2E926 /* Preview Content */,
-				3F13FB5E2BEB254B0034CF32 /* AddExpenseView.swift */,
-				3F13FB602BEB25710034CF32 /* ExpenseItemView.swift */,
 			);
 			path = ExpenseFusionJyotsna;
 			sourceTree = "<group>";

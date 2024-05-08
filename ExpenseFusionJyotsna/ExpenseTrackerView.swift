@@ -19,6 +19,8 @@ struct ExpenseTrackerView: View {
                     fetchCurrentUserID()
                     fetchExpenses()
                 }
+                .padding()
+
             // Check here if currentUserID is correctly set before using it.
             AddExpenseView(
                 expenseName: $expenseName,
@@ -28,9 +30,11 @@ struct ExpenseTrackerView: View {
                 currentUserID: $currentUserID,
                 addExpenseAction: addExpense
             )
-  }
+                .padding()
+        }
+        .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color(red: 0.6, green: 0.4, blue: 0.2)]), startPoint: .top, endPoint: .bottom))
     }
-    
+
     private func fetchExpenses() {
         guard let userID = currentUserID else {
             print("User ID not available")
@@ -38,7 +42,7 @@ struct ExpenseTrackerView: View {
         }
         expenseTrackerViewModel.fetchExpenses(forUserID: userID)
     }
-    
+
     private func fetchCurrentUserID() {
         if let currentUser = Auth.auth().currentUser {
             self.currentUserID = currentUser.uid
@@ -47,16 +51,15 @@ struct ExpenseTrackerView: View {
             self.currentUserID = nil
         }
     }
-    
+
     private func addExpense() {
         guard let amount = Double(amount), let currentUserID = currentUserID else { return }
-        
+
         // Assuming currentUserID is the ID of the current user
         let expense = Expense(id: UUID().uuidString, userID: currentUserID, name: expenseName, amount: amount, date: expenseDate, taxDeductible: isTaxDeductible)
 
-        
         expenseTrackerViewModel.addExpense(expense)
-        
+
         expenseName = ""
         self.amount = ""
         expenseDate = Date()

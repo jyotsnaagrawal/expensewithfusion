@@ -1,9 +1,3 @@
-//
-//  AddExpenseView.swift
-//  ExpenseFusionJyotsna
-//
-//  Created by student on 5/7/24.
-//
 import SwiftUI
 
 struct AddExpenseView: View {
@@ -37,11 +31,18 @@ struct AddExpenseView: View {
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color.white))
                 .padding(.horizontal)
             
-            Button("Add Expense") {
-                addExpenseAction()
+            Button(action: addExpenseAction) {
+                Text("Add Expense")
+                    .foregroundColor(Color.black)
+                    .padding()
+                    .frame(maxWidth: .infinity)
             }
+            .background(Color(red: 0.83, green: 0.69, blue: 0.22))
+            .cornerRadius(8)
             .padding()
         }
-        .padding()
+        .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color(red: 0.6, green: 0.4, blue: 0.2)]), startPoint: .top, endPoint: .bottom))
+        .cornerRadius(16)
+        .shadow(radius: 5)
     }
 }
