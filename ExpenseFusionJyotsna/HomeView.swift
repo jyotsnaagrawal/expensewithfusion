@@ -5,43 +5,45 @@ struct HomeView: View {
     @ObservedObject var expenseTrackerViewModel = ExpenseTrackerViewModel()
     
     var body: some View {
-        
-        ScrollView {
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color.white, Color(red: 0.6, green: 0.4, blue: 0.2)]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.all)
             
-            VStack(spacing: 20) {
-                Text("Expense Summary")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding()
-                
-                // Display expense summary cards
-                ForEach(expenseTrackerViewModel.expenses) { expense in
-                    ExpenseSummaryCard(expense: expense)
+            ScrollView {
+                VStack(spacing: 20) {
+                    Text("Expense Summary")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding()
+                    
+                    // Display expense summary cards
+                    ForEach(expenseTrackerViewModel.expenses) { expense in
+                        ExpenseSummaryCard(expense: expense)
+                    }
+                    
+                    Text("Split Bills Summary")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding()
+                    
+                    // Split bills summary cards - Placeholder data
+                    SplitBillsSummaryCard(groupName: "Trip Expenses", amountOwed: "$80")
+                    SplitBillsSummaryCard(groupName: "House Rent", amountOwed: "$200")
+                    SplitBillsSummaryCard(groupName: "Utility Bills", amountOwed: "$50")
                 }
-                
-                Text("Split Bills Summary")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding()
-                
-                // Split bills summary cards - Placeholder data
-                SplitBillsSummaryCard(groupName: "Trip Expenses", amountOwed: "$80")
-                SplitBillsSummaryCard(groupName: "House Rent", amountOwed: "$200")
-                SplitBillsSummaryCard(groupName: "Utility Bills", amountOwed: "$50")
+                .padding()
+                .foregroundColor(.black)
             }
-            .padding()
-            .onAppear {
-                // Fetch expense summary data for the current user when the view appears
-                if let currentUser = Auth.auth().currentUser {
-                    let currentUserID = currentUser.uid
-                    expenseTrackerViewModel.fetchExpenses(forUserID: currentUserID)
-                } else {
-                    // Handle the case where there's no current user signed in
-                    // You may want to show a login screen or handle it differently based on your app's requirements
-                }
-
+        }
+        .onAppear {
+            // Fetch expense summary data for the current user when the view appears
+            if let currentUser = Auth.auth().currentUser {
+                let currentUserID = currentUser.uid
+                expenseTrackerViewModel.fetchExpenses(forUserID: currentUserID)
+            } else {
+                // Handle the case where there's no current user signed in
+                // You may want to show a login screen or handle it differently based on your app's requirements
             }
-
         }
     }
 }

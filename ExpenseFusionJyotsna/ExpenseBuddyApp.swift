@@ -1,9 +1,10 @@
 import SwiftUI
+import FirebaseAuth
 
 struct ExpenseBuddyAppView: View {
     var body: some View {
-        TabView {
-            NavigationView {
+        NavigationView {
+            TabView {
                 ZStack {
                     LinearGradient(gradient: Gradient(colors: [Color.brown, Color.white]), startPoint: .top, endPoint: .bottom)
                         .edgesIgnoringSafeArea(.all)
@@ -37,7 +38,7 @@ struct ExpenseBuddyAppView: View {
                                 endPoint: .trailing
                             ), foregroundColor: .black)
                         }
-
+                        
                         NavigationLink(destination: ManageGroupView()) {
                             LargeButtonView(title: "Manage Groups", backgroundColor: LinearGradient(
                                 gradient: Gradient(colors: [
@@ -49,60 +50,90 @@ struct ExpenseBuddyAppView: View {
                                 endPoint: .trailing
                             ), foregroundColor: .black)
                         }
-
                         
                         Spacer()
                     }
                     .padding()
                 }
                 .navigationBarHidden(true)
-            }
-            .tabItem {
-                Image(systemName: "person.3.fill")
-                Text("Split Bills")
-            }
-            
-            NavigationView {
+                .tabItem {
+                    Image(systemName: "person.3.fill")
+                    Text("Groups")
+                }
+                
                 HomeView()
-            }
-            .tabItem {
-                Image(systemName: "house.fill")
-                Text("Home")
-            }
-            
-            NavigationView {
+                    .tabItem {
+                        Image(systemName: "house.fill")
+                        Text("DashBoard")
+                    }
+                
+                ExpenseSplitView()
+                    .tabItem {
+                        Image(systemName: "house.fill")
+                        Text("Split")
+                    }
+                
                 ExpenseTrackerView()
+                    .tabItem {
+                        Image(systemName: "chart.pie.fill")
+                        Text("Expense Tracker")
+                    }
+                
+                VStack {
+                    Spacer()
+                    Button(action: signOut) {
+                        Text("Sign Out")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.red)
+                            .cornerRadius(8)
+                    }
+                    .padding(.bottom, 20)
+                }
+                .tabItem {
+                    Image(systemName: "arrowshape.turn.up.backward.fill")
+                    Text("Sign Out")
+                }
             }
-            
-            .tabItem {
-                Image(systemName: "chart.pie.fill")
-                Text("Expense Tracker")
-            }
-
         }
     }
-}
-
-struct LargeButtonView: View {
-    let title: String
-    let backgroundColor: LinearGradient // Change the background color type to LinearGradient
-    let foregroundColor: Color
     
-    var body: some View {
-        Text(title)
-            .frame(minWidth: 0, maxWidth: .infinity)
-            .padding()
-            .foregroundColor(foregroundColor)
-            .background(backgroundColor) // Use LinearGradient for background color
-            .cornerRadius(8)
-            .padding(.horizontal, 20)
-            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
-            .padding(.bottom, 20)
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            // Set LoginView as the root view controller
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                if let window = windowScene.windows.first {
+                    window.rootViewController = UIHostingController(rootView: LoginView())
+                }
+            }
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
     }
-}
-
-struct ExpenseBuddyAppView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExpenseBuddyAppView()
+    
+    
+    struct LargeButtonView: View {
+        let title: String
+        let backgroundColor: LinearGradient // Change the background color type to LinearGradient
+        let foregroundColor: Color
+        
+        var body: some View {
+            Text(title)
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding()
+                .foregroundColor(foregroundColor)
+                .background(backgroundColor) // Use LinearGradient for background color
+                .cornerRadius(8)
+                .padding(.horizontal, 20)
+                .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                .padding(.bottom, 20)
+        }
+    }
+    
+    struct ExpenseBuddyAppView_Previews: PreviewProvider {
+        static var previews: some View {
+            ExpenseBuddyAppView()
+        }
     }
 }
